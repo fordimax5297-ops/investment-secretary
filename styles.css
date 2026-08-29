@@ -1,0 +1,61 @@
+:root{
+  --bg:#0b1220;
+  --card:#121a2a;
+  --card2:#172033;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --line:#243047;
+  --good:#22c55e;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+  --accent:#60a5fa;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
+body{padding-bottom:86px}
+.app-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 18px 14px;background:rgba(11,18,32,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+h1{font-size:24px;margin:4px 0 0}
+h2{font-size:18px;margin:0 0 5px}
+p{margin:0;color:var(--muted);font-size:13px}
+.icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--text);font-size:22px}
+main{padding:16px;max-width:760px;margin:0 auto}
+.hero-card{display:flex;justify-content:space-between;gap:16px;padding:20px;background:linear-gradient(145deg,#172033,#111827);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 14px 38px rgba(0,0,0,.24)}
+.hero-right{text-align:right}
+.label{font-size:12px;color:var(--muted)}
+.hero-value{margin-top:7px;font-size:25px;font-weight:800}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin:24px 2px 12px}
+.cards{display:grid;gap:12px}
+.stock-card{padding:16px;border:1px solid var(--line);background:var(--card);border-radius:var(--radius)}
+.stock-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.stock-name{font-size:19px;font-weight:800}
+.stock-code{font-size:12px;color:var(--muted);margin-top:2px}
+.action{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.action.buy{background:rgba(34,197,94,.15);color:#86efac}
+.action.ready{background:rgba(96,165,250,.15);color:#93c5fd}
+.action.watch{background:rgba(245,158,11,.15);color:#fcd34d}
+.score-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.metric{padding:10px;background:var(--card2);border-radius:14px}
+.metric .k{font-size:11px;color:var(--muted)}
+.metric .v{margin-top:5px;font-size:15px;font-weight:800}
+.metric .positive{color:#86efac}
+.metric .negative{color:#fca5a5}
+.levels{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+.levels div{font-size:12px;color:var(--muted)}
+.levels b{display:block;color:var(--text);font-size:14px;margin-top:3px}
+.health-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.health-card{padding:14px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.health-card .name{font-size:12px;color:var(--muted)}
+.health-card .value{margin-top:6px;font-size:20px;font-weight:800}
+.performance-list{display:grid;gap:10px}
+.performance-row{display:grid;grid-template-columns:1.4fr repeat(3,.8fr);gap:8px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:16px;align-items:center}
+.performance-row .small{font-size:11px;color:var(--muted)}
+.performance-row b{font-size:13px}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(11,18,32,.97);border-top:1px solid var(--line);backdrop-filter:blur(14px)}
+.nav-item{height:44px;border:0;border-radius:14px;background:transparent;color:var(--muted);font-weight:700}
+.nav-item.active{background:var(--card2);color:var(--text)}
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(20px);opacity:0;background:#020617;color:#fff;padding:10px 14px;border-radius:12px;font-size:12px;transition:.2s;pointer-events:none;z-index:30}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
+@media(min-width:700px){.cards{grid-template-columns:1fr 1fr}.stock-card:first-child{grid-column:1/-1}}

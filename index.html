@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>股市投資秘書</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <div class="eyebrow">AI Swing Trading</div>
+      <h1>股市投資秘書</h1>
+    </div>
+    <button id="refreshBtn" class="icon-btn" aria-label="重新整理">↻</button>
+  </header>
+
+  <main>
+    <section class="hero-card">
+      <div>
+        <div class="label">資料基準日</div>
+        <div id="tradeDate" class="hero-value">—</div>
+      </div>
+      <div class="hero-right">
+        <div class="label">今日 Top 5</div>
+        <div id="topCount" class="hero-value">—</div>
+      </div>
+    </section>
+
+    <section class="section-head">
+      <div>
+        <h2>今日波段 Top 5</h2>
+        <p>Current Setup 優先；勝率與報酬為歷史先驗。</p>
+      </div>
+    </section>
+
+    <div id="top5List" class="cards"></div>
+
+    <section class="section-head">
+      <div>
+        <h2>系統狀態</h2>
+        <p>API / FinalSwing / Performance / Archive</p>
+      </div>
+    </section>
+
+    <div id="healthGrid" class="health-grid"></div>
+
+    <section class="section-head">
+      <div>
+        <h2>最近績效</h2>
+        <p>5D / 10D / 20D / 30D / 45D 將隨交易日累積。</p>
+      </div>
+    </section>
+
+    <div id="performanceList" class="performance-list"></div>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-view="top5">Top5</button>
+    <button class="nav-item" data-view="performance">績效</button>
+    <button class="nav-item" data-view="system">系統</button>
+  </nav>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
