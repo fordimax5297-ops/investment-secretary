@@ -1,3 +1,7 @@
+# V1.1 JSONP 修正版
+
+此版改用 JSONP 讀取 Apps Script API，避免 GitHub Pages 跨網域 fetch 問題。
+
 # 股市投資秘書 PWA V1
 
 ## 1. 設定 API

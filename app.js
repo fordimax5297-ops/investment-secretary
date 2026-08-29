@@ -11,11 +11,49 @@ function apiUrl(action, extra = {}) {
   return u.toString();
 }
 
-async function fetchJson(action, extra) {
-  const res = await fetch(apiUrl(action, extra), { cache: "no-store" });
-  const json = await res.json();
-  if (!json.ok) throw new Error(json.error || "API error");
-  return json.data;
+function fetchJson(action, extra = {}) {
+  return new Promise((resolve, reject) => {
+    let callbackName = "__investApiCb_" + Date.now() + "_" + Math.floor(Math.random() * 1000000);
+
+    const u = new URL(INVEST_API_BASE);
+    u.searchParams.set("action", action);
+    if (INVEST_API_KEY) u.searchParams.set("key", INVEST_API_KEY);
+    Object.entries(extra || {}).forEach(([k, v]) => u.searchParams.set(k, v));
+    u.searchParams.set("callback", callbackName);
+
+    const script = document.createElement("script");
+    let timer;
+
+    function cleanup() {
+      clearTimeout(timer);
+      if (script.parentNode) script.parentNode.removeChild(script);
+      try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+    }
+
+    window[callbackName] = function(json) {
+      cleanup();
+      if (!json || json.ok !== true) {
+        reject(new Error((json && json.error) || "API error"));
+        return;
+      }
+      resolve(json.data);
+    };
+
+    script.src = u.toString();
+    script.async = true;
+
+    script.onerror = function() {
+      cleanup();
+      reject(new Error("API 載入失敗"));
+    };
+
+    timer = setTimeout(function() {
+      cleanup();
+      reject(new Error("API 連線逾時"));
+    }, 15000);
+
+    document.head.appendChild(script);
+  });
 }
 
 function pct(v) {
