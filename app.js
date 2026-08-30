@@ -135,8 +135,23 @@ function showDetail(x,type){
     $("gauge1Value").textContent=num(g1,0); $("gauge2Value").textContent=num(g2,0); $("gauge3Value").textContent=num(g3,0);
     setGauge("gauge1",g1,"#b38cff"); setGauge("gauge2",g2,"#45a3ff"); setGauge("gauge3",g3,"#3ee48b");
     $("detailReason").textContent=x.reason||"—"; $("riskLevel").textContent=x.chipState||"—"; $("riskReason").textContent=`來源：${x.sourcePrior||"—"}｜量比 ${num(x.volumeRatio20)}`;
+
+    $("executionRows").classList.remove("hidden");
+    $("executionNotes").classList.remove("hidden");
+    $("initialPosition").textContent=pct(x.initialPositionPct);
+    $("addOnBreakout").textContent=pct(x.addOnBreakoutPct);
+    $("maxPosition").textContent=pct(x.maxPositionPct);
+    $("hardStop").textContent=num(x.hardStop);
+    $("executionInstruction").textContent=x.executionInstruction||"—";
+    $("structuralStop").textContent=x.structuralStop||"—";
+    $("breakoutConfirmRule").textContent=x.breakoutConfirmRule||"—";
+    $("exitAlertRule").textContent=x.exitAlertRule||"—";
+
     $("detailPanel").scrollIntoView({behavior:"smooth",block:"start"}); return;
   }
+
+  $("executionRows").classList.add("hidden");
+  $("executionNotes").classList.add("hidden");
 
   const isShort=type==="short", score=isShort?x.shortScore:x.decisionScore;
   $("detailBreadcrumb").textContent=`${isShort?"短線":"波段"} Top 5 > #${x.rank}`;

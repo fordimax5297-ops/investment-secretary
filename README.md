@@ -1,13 +1,17 @@
-# 法人交易平台 Pro UI V3 Fresh Build
+# 法人交易平台 Pro UI V3.1 Execution Panel
 
-這是一份重新從零組裝的完整前端版本。
+新增潛伏策略執行欄位：
+- 初始部位
+- 突破加碼
+- 最大部位
+- Hard Stop
+- 執行指令
+- 結構停損
+- 突破確認
+- 出場警示
 
-一定包含：
-- 波段 Top5
-- 短線 Top5
-- 潛伏 Top5
-- index.html 內可搜尋 `preBreakoutList`
-- app.js 內可搜尋 `fetchJson("prebreakout")`
-- sw.js 內可搜尋 `investment-secretary-pro-v3-fresh-3001`
+需要搭配：
+InvestmentSecretaryApi_V1_4_PreBreakoutExecution.gs
 
-請保留原本的 config.js，不要用此包覆蓋 config.js。
+不含 config.js；請保留 GitHub 目前正式 config.js。
+不需要修改既有觸發器。

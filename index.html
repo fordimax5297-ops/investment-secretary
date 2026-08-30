@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#07111f" />
   <title>法人交易平台 Pro</title>
   <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="./icon-192.png?v=3001" />
-  <link rel="stylesheet" href="./styles.css?v=3001" />
+  <link rel="apple-touch-icon" href="./icon-192.png?v=3101" />
+  <link rel="stylesheet" href="./styles.css?v=3101" />
 </head>
 <body>
   <header class="topbar">
@@ -130,6 +130,12 @@
               <div class="trade-row"><span>第一目標 / 觸發價</span><b id="target1">—</b></div>
               <div class="trade-row"><span>第二目標 / 警戒價</span><b id="target2">—</b></div>
               <div class="trade-row"><span>持有週期</span><b id="holdingDays">—</b></div>
+              <div id="executionRows" class="execution-rows hidden">
+                <div class="trade-row"><span>初始部位</span><b id="initialPosition">—</b></div>
+                <div class="trade-row"><span>突破加碼</span><b id="addOnBreakout">—</b></div>
+                <div class="trade-row"><span>最大部位</span><b id="maxPosition">—</b></div>
+                <div class="trade-row"><span>Hard Stop</span><b id="hardStop">—</b></div>
+              </div>
             </article>
 
             <article class="detail-box">
@@ -151,6 +157,12 @@
               <h3>風險觀察</h3>
               <div class="trade-row"><span>風險 / 籌碼</span><b id="riskLevel">—</b></div>
               <div class="trade-row"><span>補充</span><b id="riskReason">—</b></div>
+              <div id="executionNotes" class="execution-notes hidden">
+                <div class="note-block"><span>執行指令</span><p id="executionInstruction">—</p></div>
+                <div class="note-block"><span>結構停損</span><p id="structuralStop">—</p></div>
+                <div class="note-block"><span>突破確認</span><p id="breakoutConfirmRule">—</p></div>
+                <div class="note-block"><span>出場警示</span><p id="exitAlertRule">—</p></div>
+              </div>
               <p class="method-note">歷史經驗勝率依個股歷史走勢統計，非相同訊號回測結果。</p>
             </article>
           </div>
@@ -179,6 +191,6 @@
 
   <div id="toast" class="toast"></div>
   <script src="./config.js"></script>
-  <script src="./app.js?v=3001"></script>
+  <script src="./app.js?v=3101"></script>
 </body>
 </html>
