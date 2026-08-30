@@ -1,1 +1,1 @@
-法人交易平台 Pro UI V1。只改前端；保留現有 config.js，不改 API 與選股引擎。
+法人交易平台 Pro UI V2。只改前端，不改 API/選股引擎。請保留現有 config.js。
