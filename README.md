@@ -1,42 +1,17 @@
-# V1.1 JSONP 修正版
+# 股市投資秘書 PWA V1.2 — ShortTop5
 
-此版改用 JSONP 讀取 Apps Script API，避免 GitHub Pages 跨網域 fetch 問題。
+新增：
+- 波段 Top5（30–45D）保留不動
+- 新增短線 Top5（10–20D）頁籤
+- 顯示 10D / 20D 歷史經驗勝率
+- 顯示預估報酬、EV、MAE、進場、停損、目標與部位
 
-# 股市投資秘書 PWA V1
+重要：
+此更新包刻意不包含 config.js。
+GitHub 上原本已設定 API URL / API KEY 的 config.js 請保留，不要覆蓋。
 
-## 1. 設定 API
-打開 `config.js`，把：
-
-PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE
-
-換成你的 Apps Script Web App `/exec` 網址。
-
-如果有設定 `INVEST_APP_API_KEY`，再把 key 填入 `INVEST_API_KEY`。
-
-## 2. 上線方式
-建議最簡單使用：
-- GitHub Pages
-- Cloudflare Pages
-- Netlify
-
-將整個資料夾上傳即可。
-
-## 3. 手機安裝
-Android Chrome：
-開啟網站 → 選單 →「安裝應用程式」或「加入主畫面」
-
-iPhone Safari：
-開啟網站 → 分享 →「加入主畫面」
-
-## 4. V1 畫面
-- 今日 Top5
-- 操作訊號
-- 決策分數
-- 45日勝率 / 預估報酬 / EV / MAE
-- 進場、停損、停利、部位
-- 系統資料狀態
-- 最近績效
-
-## 5. 安全
-前端中的 API key 不能視為真正秘密。
-若未來要公開給其他人使用，請改成正式登入驗證。
+部署：
+1. Apps Script 使用 InvestmentSecretaryApi_V1_2_ShortTop5.gs
+2. 建立新部署版本
+3. 測試 ?action=shorttop5&key=你的KEY
+4. GitHub 僅覆蓋本 ZIP 內檔案

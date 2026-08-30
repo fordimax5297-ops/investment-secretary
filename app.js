@@ -117,6 +117,56 @@ function renderTop5(data) {
   });
 }
 
+
+function renderShortTop5(data) {
+  const root = $("shortTop5List");
+  root.innerHTML = "";
+
+  if (!data.items?.length) {
+    root.innerHTML = `<div class="empty">目前沒有短線 Top5 資料</div>`;
+    return;
+  }
+
+  data.items.forEach(x => {
+    const el = document.createElement("article");
+    el.className = "stock-card";
+    el.innerHTML = `
+      <div class="stock-top">
+        <div>
+          <div class="stock-name">${x.rank}. ${x.stockName}</div>
+          <div class="stock-code">${x.stockId}｜${x.industry || ""}</div>
+          <div class="short-badge">${x.holdingDays || "10–20D"}｜風險 ${x.riskLevel || "—"}</div>
+        </div>
+        <div class="action ${actionClass(x.action)}">${x.action || "—"}</div>
+      </div>
+
+      <div class="score-row">
+        <div class="metric"><div class="k">短線分數</div><div class="v">${num(x.shortScore)}</div></div>
+        <div class="metric"><div class="k">10D 歷史經驗勝率</div><div class="v">${pct(x.winRate10D)}</div></div>
+        <div class="metric"><div class="k">20D 歷史經驗勝率</div><div class="v">${pct(x.winRate20D)}</div></div>
+      </div>
+
+      <div class="score-row">
+        <div class="metric"><div class="k">10D 預估報酬</div><div class="v ${Number(x.expectedReturn10D)>=0?'positive':'negative'}">${pct(x.expectedReturn10D)}</div></div>
+        <div class="metric"><div class="k">20D 預估報酬</div><div class="v ${Number(x.expectedReturn20D)>=0?'positive':'negative'}">${pct(x.expectedReturn20D)}</div></div>
+        <div class="metric"><div class="k">20D EV</div><div class="v ${Number(x.expectedValue20D)>=0?'positive':'negative'}">${pct(x.expectedValue20D)}</div></div>
+      </div>
+
+      <div class="levels">
+        <div>進場區<b>${num(x.entryLow)} ～ ${num(x.entryHigh)}</b></div>
+        <div>停損<b>${num(x.stopLoss)}</b></div>
+        <div>第一目標<b>${num(x.target1)}</b></div>
+        <div>第二目標<b>${num(x.target2)}</b></div>
+        <div>20D MAE<b>${pct(x.mae20D)}</b></div>
+        <div>建議部位<b>${pct(x.suggestedPositionPct)}</b></div>
+      </div>
+
+      <div class="reason">${x.reason || ""}</div>
+    `;
+    root.appendChild(el);
+  });
+}
+
 function renderHealth(data) {
   const root = $("healthGrid");
   root.innerHTML = "";
@@ -165,13 +215,15 @@ function toast(msg) {
 async function loadAll() {
   $("refreshBtn").disabled = true;
   try {
-    const [health, top5, perf] = await Promise.all([
+    const [health, top5, shortTop5, perf] = await Promise.all([
       fetchJson("health"),
       fetchJson("top5"),
+      fetchJson("shorttop5"),
       fetchJson("performance", { limit: 10 })
     ]);
     renderHealth(health);
     renderTop5(top5);
+    renderShortTop5(shortTop5);
     renderPerformance(perf);
     toast("資料已更新");
   } catch (err) {
@@ -194,6 +246,19 @@ document.querySelectorAll(".nav-item").forEach(btn => {
     if (view === "system") $("healthGrid").scrollIntoView({behavior:"smooth"});
   });
 });
+
+
+function setStrategyView(mode) {
+  const isShort = mode === "short";
+  $("swingSection").classList.toggle("hidden", isShort);
+  $("shortSection").classList.toggle("hidden", !isShort);
+  $("swingTab").classList.toggle("active", !isShort);
+  $("shortTab").classList.toggle("active", isShort);
+  $("topCount").textContent = isShort ? "短線 5" : "波段 5";
+}
+
+$("swingTab").addEventListener("click", () => setStrategyView("swing"));
+$("shortTab").addEventListener("click", () => setStrategyView("short"));
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#111827" />
   <title>股市投資秘書</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=2">
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -25,19 +25,43 @@
         <div id="tradeDate" class="hero-value">—</div>
       </div>
       <div class="hero-right">
-        <div class="label">今日 Top 5</div>
-        <div id="topCount" class="hero-value">—</div>
+        <div class="label">目前模式</div>
+        <div id="topCount" class="hero-value">波段 5</div>
       </div>
     </section>
 
-    <section class="section-head">
-      <div>
-        <h2>今日波段 Top 5</h2>
-        <p>Current Setup 優先；勝率與報酬為歷史先驗。</p>
-      </div>
+    <section class="strategy-tabs" aria-label="選股週期">
+      <button id="swingTab" class="strategy-tab active" type="button">
+        <span>波段 Top 5</span>
+        <small>30–45D</small>
+      </button>
+      <button id="shortTab" class="strategy-tab" type="button">
+        <span>短線 Top 5</span>
+        <small>10–20D</small>
+      </button>
     </section>
 
-    <div id="top5List" class="cards"></div>
+    <section id="swingSection">
+      <section class="section-head">
+        <div>
+          <h2>今日波段 Top 5</h2>
+          <p>30D / 45D 歷史經驗勝率；Current Setup 優先。</p>
+        </div>
+      </section>
+      <div id="top5List" class="cards"></div>
+      <div class="method-note">依個股歷史走勢統計，非相同訊號回測結果。</div>
+    </section>
+
+    <section id="shortSection" class="hidden">
+      <section class="section-head">
+        <div>
+          <h2>今日短線 Top 5</h2>
+          <p>10D / 20D 歷史經驗勝率；動能、籌碼與量價優先。</p>
+        </div>
+      </section>
+      <div id="shortTop5List" class="cards"></div>
+      <div class="method-note">依個股歷史走勢統計，非相同訊號回測結果。</div>
+    </section>
 
     <section class="section-head">
       <div>

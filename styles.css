@@ -59,3 +59,14 @@ main{padding:16px;max-width:760px;margin:0 auto}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .empty{padding:20px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
 @media(min-width:700px){.cards{grid-template-columns:1fr 1fr}.stock-card:first-child{grid-column:1/-1}}
+
+.strategy-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 6px}
+.strategy-tab{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:16px;padding:12px 10px;text-align:left}
+.strategy-tab span{display:block;font-size:15px;font-weight:800}
+.strategy-tab small{display:block;margin-top:3px;font-size:11px;color:var(--muted)}
+.strategy-tab.active{background:var(--card2);color:var(--text);border-color:#365071}
+.strategy-tab.active small{color:var(--accent)}
+.hidden{display:none}
+.method-note{margin:10px 3px 0;color:var(--muted);font-size:11px}
+.short-badge{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 8px;border-radius:999px;background:rgba(96,165,250,.1);color:#bfdbfe;font-size:11px}
+.reason{margin-top:10px;font-size:12px;line-height:1.55;color:var(--muted)}

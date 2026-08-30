@@ -1,4 +1,4 @@
-const CACHE = "investment-secretary-v1-1";
+const CACHE = "investment-secretary-v1-2-shorttop5";
 const ASSETS = [
   "./",
   "index.html",
