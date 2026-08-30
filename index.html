@@ -3,93 +3,167 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#111827" />
-  <title>股市投資秘書</title>
+  <meta name="theme-color" content="#08111f" />
+  <title>法人交易平台 Pro</title>
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="apple-touch-icon" href="icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="app-header">
-    <div>
-      <div class="eyebrow">AI Swing Trading</div>
-      <h1>股市投資秘書</h1>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">◎</div>
+      <div>
+        <div class="brand-title">法人交易平台 <span>Pro</span></div>
+        <div class="brand-sub">AI Swing Trading Desk</div>
+      </div>
     </div>
-    <button id="refreshBtn" class="icon-btn" aria-label="重新整理">↻</button>
+    <div class="topbar-right">
+      <div class="asof">資料基準日 <b id="tradeDate">—</b></div>
+      <button id="refreshBtn" class="refresh-btn" aria-label="重新整理">↻</button>
+    </div>
   </header>
 
-  <main>
-    <section class="hero-card">
-      <div>
-        <div class="label">資料基準日</div>
-        <div id="tradeDate" class="hero-value">—</div>
-      </div>
-      <div class="hero-right">
-        <div class="label">目前模式</div>
-        <div id="topCount" class="hero-value">波段 5</div>
-      </div>
-    </section>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <button class="side-item active" data-scroll="overview">總覽</button>
+      <button class="side-item" data-scroll="rankings">波段 Top 5 <small>30–45D</small></button>
+      <button class="side-item" data-scroll="rankings">短線 Top 5 <small>10–20D</small></button>
+      <button class="side-item" data-scroll="performance">績效</button>
+      <button class="side-item" data-scroll="system">系統</button>
+      <div class="side-foot">策略引擎 v2.1</div>
+    </aside>
 
-    <section class="strategy-tabs" aria-label="選股週期">
-      <button id="swingTab" class="strategy-tab active" type="button">
-        <span>波段 Top 5</span>
-        <small>30–45D</small>
-      </button>
-      <button id="shortTab" class="strategy-tab" type="button">
-        <span>短線 Top 5</span>
-        <small>10–20D</small>
-      </button>
-    </section>
+    <main>
+      <section id="overview" class="panel overview-panel">
+        <div class="panel-title-row">
+          <div>
+            <div class="panel-kicker">TODAY STRATEGY</div>
+            <h1>今日策略總覽</h1>
+          </div>
+        </div>
 
-    <section id="swingSection">
-      <section class="section-head">
-        <div>
-          <h2>今日波段 Top 5</h2>
-          <p>30D / 45D 歷史經驗勝率；Current Setup 優先。</p>
+        <div class="overview-grid">
+          <div class="overview-card">
+            <div class="ov-label">波段策略 30–45D</div>
+            <div class="ov-number" id="swingBuyCount">—</div>
+            <div class="ov-sub">可執行 / 準備中</div>
+          </div>
+          <div class="overview-card">
+            <div class="ov-label">短線策略 10–20D</div>
+            <div class="ov-number" id="shortBuyCount">—</div>
+            <div class="ov-sub">可執行 / 準備中</div>
+          </div>
+          <div class="overview-card">
+            <div class="ov-label">最高 Short Score</div>
+            <div class="ov-number" id="bestShortScore">—</div>
+            <div class="ov-sub" id="bestShortName">—</div>
+          </div>
+          <div class="overview-card">
+            <div class="ov-label">最高 20D 經驗勝率</div>
+            <div class="ov-number" id="best20Win">—</div>
+            <div class="ov-sub" id="best20Name">—</div>
+          </div>
         </div>
       </section>
-      <div id="top5List" class="cards"></div>
-      <div class="method-note">依個股歷史走勢統計，非相同訊號回測結果。</div>
-    </section>
 
-    <section id="shortSection" class="hidden">
-      <section class="section-head">
-        <div>
-          <h2>今日短線 Top 5</h2>
-          <p>10D / 20D 歷史經驗勝率；動能、籌碼與量價優先。</p>
-        </div>
+      <section id="rankings" class="dual-grid">
+        <article class="panel ranking-panel">
+          <div class="panel-title-row">
+            <div>
+              <div class="panel-kicker blue">SWING</div>
+              <h2>波段 Top 5 <span>30–45D</span></h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="rank-table">
+              <thead>
+                <tr><th>#</th><th>股票</th><th>Action</th><th>Score</th><th>45D勝率</th><th>45D EV</th></tr>
+              </thead>
+              <tbody id="swingTable"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel ranking-panel">
+          <div class="panel-title-row">
+            <div>
+              <div class="panel-kicker amber">SHORT</div>
+              <h2>短線 Top 5 <span>10–20D</span></h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="rank-table">
+              <thead>
+                <tr><th>#</th><th>股票</th><th>Action</th><th>Short</th><th>20D勝率</th><th>20D EV</th></tr>
+              </thead>
+              <tbody id="shortTable"></tbody>
+            </table>
+          </div>
+        </article>
       </section>
-      <div id="shortTop5List" class="cards"></div>
-      <div class="method-note">依個股歷史走勢統計，非相同訊號回測結果。</div>
-    </section>
 
-    <section class="section-head">
-      <div>
-        <h2>系統狀態</h2>
-        <p>API / FinalSwing / Performance / Archive</p>
-      </div>
-    </section>
+      <section class="mid-grid">
+        <article id="system" class="panel">
+          <div class="panel-title-row"><h2>系統狀態</h2></div>
+          <div id="healthGrid" class="health-grid"></div>
+        </article>
 
-    <div id="healthGrid" class="health-grid"></div>
+        <article id="performance" class="panel">
+          <div class="panel-title-row"><h2>最近績效</h2></div>
+          <div id="performanceList" class="performance-list"></div>
+        </article>
+      </section>
 
-    <section class="section-head">
-      <div>
-        <h2>最近績效</h2>
-        <p>5D / 10D / 20D / 30D / 45D 將隨交易日累積。</p>
-      </div>
-    </section>
+      <section id="detailPanel" class="panel detail-panel hidden">
+        <div class="panel-title-row">
+          <div>
+            <div class="panel-kicker">SELECTED STOCK</div>
+            <h2 id="detailTitle">—</h2>
+          </div>
+          <div id="detailAction" class="action">—</div>
+        </div>
 
-    <div id="performanceList" class="performance-list"></div>
-  </main>
+        <div class="detail-grid">
+          <div class="detail-score-card">
+            <div class="detail-label">策略分數</div>
+            <div id="detailScore" class="detail-score">—</div>
+            <div id="detailStrategy" class="detail-muted">—</div>
+          </div>
 
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-view="top5">Top5</button>
-    <button class="nav-item" data-view="performance">績效</button>
-    <button class="nav-item" data-view="system">系統</button>
+          <div class="detail-box">
+            <div class="detail-label">進出策略</div>
+            <div class="trade-grid">
+              <div>進場區<b id="detailEntry">—</b></div>
+              <div>停損<b id="detailStop">—</b></div>
+              <div>第一目標<b id="detailT1">—</b></div>
+              <div>第二目標<b id="detailT2">—</b></div>
+            </div>
+          </div>
+
+          <div class="detail-box">
+            <div class="detail-label">歷史經驗統計</div>
+            <div class="metric-grid">
+              <div><span id="detailWinLabel1">勝率</span><b id="detailWin1">—</b></div>
+              <div><span id="detailWinLabel2">勝率</span><b id="detailWin2">—</b></div>
+              <div><span>EV</span><b id="detailEV">—</b></div>
+              <div><span>MAE</span><b id="detailMAE">—</b></div>
+            </div>
+          </div>
+        </div>
+        <div id="detailReason" class="detail-reason"></div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="mobile-nav">
+    <button class="mobile-item active" data-scroll="overview">總覽</button>
+    <button class="mobile-item" data-scroll="rankings">Top5</button>
+    <button class="mobile-item" data-scroll="performance">績效</button>
+    <button class="mobile-item" data-scroll="system">系統</button>
   </nav>
 
   <div id="toast" class="toast"></div>
-
   <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
