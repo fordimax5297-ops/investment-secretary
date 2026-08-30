@@ -1,17 +1,9 @@
-# 法人交易平台 Pro UI V3.1 Execution Panel
+# 法人交易平台 Pro UI V3.2 Large Font
 
-新增潛伏策略執行欄位：
-- 初始部位
-- 突破加碼
-- 最大部位
-- Hard Stop
-- 執行指令
-- 結構停損
-- 突破確認
-- 出場警示
+本版只調整可讀性：
+- 手機字體全面放大約 15–30%
+- 個股名稱、指標、狀態標籤、交易策略與執行說明放大
+- 卡片與列距微增，手機閱讀更清楚
+- 不改 API、不改選股、不改觸發器、不改 config.js
 
-需要搭配：
-InvestmentSecretaryApi_V1_4_PreBreakoutExecution.gs
-
-不含 config.js；請保留 GitHub 目前正式 config.js。
-不需要修改既有觸發器。
+直接覆蓋 GitHub Pages 前端檔案即可，保留原 config.js。
