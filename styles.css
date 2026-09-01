@@ -72,3 +72,204 @@ h1,h2,h3{margin:0}h1{font-size:24px}h2{font-size:19px}h2 em{font-style:normal;co
   .action-grid span{font-size:12px}
   .mobile-nav button{font-size:13px}
 }
+
+
+/* ============================================================
+   V3.4 XL Readability
+   針對手機上仍偏小的文字做第二階段放大
+   ============================================================ */
+
+:root{
+  --v34-body:14px;
+}
+
+body{
+  font-size:var(--v34-body);
+  line-height:1.5;
+}
+
+.brand-sub,
+.eyebrow,
+.trade-date,
+.breadcrumb,
+.detail-meta,
+.method-note,
+.performance-row .small,
+.health-card .name{
+  font-size:12px !important;
+}
+
+.card-head,
+.card-head b,
+.metric span,
+.stock-name small,
+.score-row span,
+.mini-grid span,
+.gauge-wrap small,
+.note-block span{
+  font-size:12px !important;
+}
+
+.metric b,
+.mini-grid b,
+.trade-row,
+.performance-row b,
+.detail-box p,
+.note-block p,
+.risk-text,
+.reason-text{
+  font-size:14px !important;
+}
+
+.stock-name b{
+  font-size:17px !important;
+}
+
+.status-pill{
+  font-size:13px !important;
+  padding:7px 11px !important;
+}
+
+.action-grid strong{
+  font-size:31px !important;
+}
+
+.action-grid span{
+  font-size:13px !important;
+}
+
+.score-row strong{
+  font-size:32px !important;
+}
+
+.health-card .value{
+  font-size:23px !important;
+}
+
+.toast{
+  font-size:13px !important;
+}
+
+.trade-row{
+  min-height:34px;
+  align-items:center;
+}
+
+.trade-row span{
+  color:var(--muted);
+}
+
+.trade-row b{
+  font-size:14px !important;
+  line-height:1.35;
+}
+
+.note-block{
+  padding:11px !important;
+}
+
+.note-block p{
+  line-height:1.7 !important;
+}
+
+.detail-box p{
+  line-height:1.7 !important;
+}
+
+/* 手機再放大一級 */
+@media(max-width:950px){
+
+  body{
+    font-size:15px;
+  }
+
+  .brand-title{
+    font-size:20px !important;
+  }
+
+  .brand-sub,
+  .trade-date,
+  .eyebrow,
+  .breadcrumb,
+  .detail-meta,
+  .method-note{
+    font-size:13px !important;
+  }
+
+  h1{
+    font-size:24px !important;
+  }
+
+  h2{
+    font-size:21px !important;
+  }
+
+  h2 em{
+    font-size:13px !important;
+  }
+
+  h3{
+    font-size:17px !important;
+  }
+
+  .stock-name b{
+    font-size:18px !important;
+  }
+
+  .stock-name small{
+    font-size:13px !important;
+  }
+
+  .metric span,
+  .mini-grid span,
+  .score-row span,
+  .card-head,
+  .card-head b,
+  .gauge-wrap small,
+  .note-block span{
+    font-size:13px !important;
+  }
+
+  .metric b,
+  .mini-grid b,
+  .trade-row,
+  .trade-row b,
+  .detail-box p,
+  .note-block p,
+  .performance-row b{
+    font-size:15px !important;
+  }
+
+  .status-pill{
+    font-size:14px !important;
+    padding:7px 12px !important;
+  }
+
+  .action-grid strong{
+    font-size:32px !important;
+  }
+
+  .action-grid span{
+    font-size:14px !important;
+  }
+
+  .score-row strong{
+    font-size:34px !important;
+  }
+
+  .strategy-card,
+  .ranking-card,
+  .detail-box,
+  .info-panel{
+    padding:16px !important;
+  }
+
+  .stock-row{
+    padding:13px 10px !important;
+    min-height:64px;
+  }
+
+  .mobile-nav button{
+    font-size:14px !important;
+  }
+}

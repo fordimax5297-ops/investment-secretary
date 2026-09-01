@@ -11,20 +11,89 @@ function apiUrl(action, extra={}) {
   return u;
 }
 
-function fetchJson(action, extra={}) {
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function fetchJsonOnce(action, extra={}, timeoutMs=30000) {
   return new Promise((resolve,reject)=>{
     const cb="__investCb_"+Date.now()+"_"+Math.floor(Math.random()*1e6);
-    const u=apiUrl(action,extra); u.searchParams.set("callback",cb);
+    const u=apiUrl(action,extra);
+    u.searchParams.set("callback",cb);
+    // 避免 Safari / CDN 沿用失敗的 JSONP
+    u.searchParams.set("_ts",Date.now());
+
     const s=document.createElement("script");
     let timer;
-    const clean=()=>{clearTimeout(timer); if(s.parentNode)s.parentNode.removeChild(s); try{delete window[cb]}catch(e){window[cb]=undefined;}};
-    window[cb]=json=>{clean(); if(!json||json.ok!==true)return reject(new Error((json&&json.error)||"API error")); resolve(json.data);};
-    s.src=u.toString(); s.async=true;
-    s.onerror=()=>{clean(); reject(new Error("API 載入失敗"));};
-    timer=setTimeout(()=>{clean(); reject(new Error("API 連線逾時"));},15000);
+
+    const clean=()=>{
+      clearTimeout(timer);
+      if(s.parentNode)s.parentNode.removeChild(s);
+      try{delete window[cb]}catch(e){window[cb]=undefined;}
+    };
+
+    window[cb]=json=>{
+      clean();
+      if(!json||json.ok!==true){
+        return reject(new Error((json&&json.error)||"API error"));
+      }
+      resolve(json.data);
+    };
+
+    s.src=u.toString();
+    s.async=true;
+
+    s.onerror=()=>{
+      clean();
+      reject(new Error("API 載入失敗"));
+    };
+
+    timer=setTimeout(()=>{
+      clean();
+      reject(new Error("API 連線逾時"));
+    },timeoutMs);
+
     document.head.appendChild(s);
   });
 }
+
+async function fetchJson(action, extra={}, options={}) {
+  const retries=options.retries??1;
+  const timeoutMs=options.timeoutMs??30000;
+  let lastErr;
+
+  for(let i=0;i<=retries;i++){
+    try{
+      return await fetchJsonOnce(action,extra,timeoutMs);
+    }catch(err){
+      lastErr=err;
+      if(i<retries) await sleep(1200*(i+1));
+    }
+  }
+
+  throw lastErr||new Error("API 載入失敗");
+}
+
+const DASH_CACHE_KEY="invest-dashboard-v33";
+
+function saveDashboardCache(data){
+  try{
+    localStorage.setItem(DASH_CACHE_KEY,JSON.stringify({
+      savedAt:Date.now(),
+      data
+    }));
+  }catch(e){}
+}
+
+function loadDashboardCache(){
+  try{
+    const raw=localStorage.getItem(DASH_CACHE_KEY);
+    if(!raw)return null;
+    const obj=JSON.parse(raw);
+    return obj&&obj.data?obj:null;
+  }catch(e){
+    return null;
+  }
+}
+
 
 const num=(v,d=2)=>{if(v===null||v===undefined||v==="")return"—";const n=Number(v);return Number.isFinite(n)?n.toFixed(d).replace(/\.00$/,""):"—";};
 const pct=v=>{if(v===null||v===undefined||v==="")return"—";const n=Number(v);return Number.isFinite(n)?`${n>0?"+":""}${n.toFixed(2)}%`:"—";};
@@ -199,20 +268,75 @@ function renderHealth(data){
 
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
 
-async function loadAll(){
-  $("refreshBtn").disabled=true;
-  try{
-    const [health,swing,short,pre,perf]=await Promise.all([
-      fetchJson("health"),fetchJson("top5"),fetchJson("shorttop5"),fetchJson("prebreakout"),fetchJson("performance",{limit:10})
-    ]);
-    $("tradeDate").textContent=swing.tradeDate||short.tradeDate||pre.tradeDate||health.latestArchiveTradeDate||"—";
-    swingItems=swing.items||[]; shortItems=short.items||[]; preItems=pre.items||[];
-    renderSummary(); renderLists(); renderPerformance(perf); renderHealth(health); toast("資料已更新");
-  }catch(err){console.error(err); toast(err.message||"載入失敗");}
-  finally{$("refreshBtn").disabled=false;}
+function applyDashboard(d){
+  if(!d)return;
+
+  const health=d.health||{};
+  const swing=d.top5||{};
+  const short=d.shortTop5||{};
+  const pre=d.preBreakout||{};
+  const perf=d.performance||{items:[]};
+
+  $("tradeDate").textContent=
+    swing.tradeDate||
+    short.tradeDate||
+    pre.tradeDate||
+    d.tradeDate||
+    health.latestArchiveTradeDate||
+    "—";
+
+  swingItems=swing.items||[];
+  shortItems=short.items||[];
+  preItems=pre.items||[];
+
+  renderSummary();
+  renderLists();
+  renderPerformance(perf);
+  renderHealth(health);
 }
 
+async function loadAll(forceRefresh=false){
+  $("refreshBtn").disabled=true;
+
+  // 先顯示手機上次成功資料，不讓畫面因 API 暫時慢而整片空白
+  const cached=loadDashboardCache();
+  if(cached&&cached.data){
+    applyDashboard(cached.data);
+  }
+
+  try{
+    const dashboard=await fetchJson(
+      "dashboard",
+      forceRefresh?{refresh:1}:{},
+      {retries:1,timeoutMs:30000}
+    );
+
+    applyDashboard(dashboard);
+    saveDashboardCache(dashboard);
+
+    toast(
+      dashboard.cache
+        ?"資料已更新（伺服器快取）"
+        :"資料已更新"
+    );
+
+  }catch(err){
+    console.error(err);
+
+    if(cached&&cached.data){
+      const mins=Math.max(0,Math.round((Date.now()-cached.savedAt)/60000));
+      toast(`API 暫時逾時，顯示 ${mins} 分鐘前快取`);
+    }else{
+      toast(err.message||"載入失敗");
+    }
+
+  }finally{
+    $("refreshBtn").disabled=false;
+  }
+}
+
+
 document.querySelectorAll("[data-target]").forEach(btn=>btn.addEventListener("click",()=>{const el=$(btn.dataset.target); if(el)el.scrollIntoView({behavior:"smooth",block:"start"});}));
-$("refreshBtn").addEventListener("click",loadAll);
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=3001"));}
+$("refreshBtn").addEventListener("click",()=>loadAll(true));
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=3401"));}
 loadAll();

@@ -1,9 +1,11 @@
-# 法人交易平台 Pro UI V3.2 Large Font
+# 投資秘書 Pro UI V3.4 XL Readability
 
-本版只調整可讀性：
-- 手機字體全面放大約 15–30%
-- 個股名稱、指標、狀態標籤、交易策略與執行說明放大
-- 卡片與列距微增，手機閱讀更清楚
-- 不改 API、不改選股、不改觸發器、不改 config.js
+本版沿用 V3.3 Resilient API，只做第二階段字體與可讀性放大：
+- 卡片標題、個股名稱、狀態標籤再放大
+- PreScore / DecisionScore / 指標數字再放大
+- 進場、停損、部位、Hard Stop 文字放大
+- 執行指令 / 結構停損 / 突破確認 / 出場警示放大
+- 方法註記、來源、量比、健康狀態等小字同步放大
+- 手機版優先
 
-直接覆蓋 GitHub Pages 前端檔案即可，保留原 config.js。
+不改 API、不改 config.js、不改選股引擎、不改 Trigger。
