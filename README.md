@@ -1,11 +1,11 @@
-# 投資秘書 Pro UI V3.4 XL Readability
+# 投資秘書 Pro UI V3.5 Performance Maturity
 
-本版沿用 V3.3 Resilient API，只做第二階段字體與可讀性放大：
-- 卡片標題、個股名稱、狀態標籤再放大
-- PreScore / DecisionScore / 指標數字再放大
-- 進場、停損、部位、Hard Stop 文字放大
-- 執行指令 / 結構停損 / 突破確認 / 出場警示放大
-- 方法註記、來源、量比、健康狀態等小字同步放大
-- 手機版優先
+沿用 V3.4 大字體 + V3.3 Resilient API。
 
-不改 API、不改 config.js、不改選股引擎、不改 Trigger。
+本版只優化「最近績效」顯示：
+- 顯示訊號日
+- 顯示追蹤至日期
+- 顯示已累積交易日數
+- 未滿 5D / 20D / 45D 時顯示「等待資料 x/y日」
+- 滿足期數後才顯示正式報酬率
+- 不改 API、不改 config.js、不改選股引擎、不改 Trigger

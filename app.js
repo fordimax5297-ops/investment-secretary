@@ -246,15 +246,36 @@ function showDetail(x,type){
   $("detailPanel").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
+function perfDateText(v){
+  const s=String(v||"").replace(/\D/g,"");
+  if(s.length===8)return `${s.slice(4,6)}/${s.slice(6,8)}`;
+  return v||"—";
+}
+
+function perfCell(days,value,available){
+  const n=Math.max(0,Number(available||0));
+  if(n<days){
+    return `<div class="small">${days}D</div><b class="perf-wait">等待資料</b><div class="perf-progress">${Math.min(n,days)}/${days}日</div>`;
+  }
+  return `<div class="small">${days}D</div><b>${pct(value)}</b><div class="perf-progress">已完成 ${days}D</div>`;
+}
+
 function renderPerformance(data){
   const root=$("performanceList"); root.innerHTML="";
   if(!data.items?.length){root.innerHTML='<div class="health-card">尚未累積績效資料</div>'; return;}
   data.items.slice(0,8).forEach(x=>{
+    const available=Math.max(0,Number(x.availableForwardDays||0));
+    const signalDate=perfDateText(x.tradeDate);
+    const evalDate=perfDateText(x.lastEvaluatedDate);
     const el=document.createElement("div"); el.className="performance-row";
-    el.innerHTML=`<div><b>${x.stockId} ${x.stockName}</b><div class="small">${x.tradeDate}</div></div>
-      <div><div class="small">5D</div><b>${pct(x.return5D)}</b></div>
-      <div><div class="small">20D</div><b>${pct(x.return20D)}</b></div>
-      <div><div class="small">45D</div><b>${pct(x.return45D)}</b></div>`;
+    el.innerHTML=`<div class="perf-stock">
+        <b>${x.stockId} ${x.stockName}</b>
+        <div class="small">訊號日 ${signalDate}</div>
+        <div class="perf-eval">追蹤至 ${evalDate}｜${available} 個交易日</div>
+      </div>
+      <div>${perfCell(5,x.return5D,available)}</div>
+      <div>${perfCell(20,x.return20D,available)}</div>
+      <div>${perfCell(45,x.return45D,available)}</div>`;
     root.appendChild(el);
   });
 }
@@ -338,5 +359,5 @@ async function loadAll(forceRefresh=false){
 
 document.querySelectorAll("[data-target]").forEach(btn=>btn.addEventListener("click",()=>{const el=$(btn.dataset.target); if(el)el.scrollIntoView({behavior:"smooth",block:"start"});}));
 $("refreshBtn").addEventListener("click",()=>loadAll(true));
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=3401"));}
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js?v=3501"));}
 loadAll();

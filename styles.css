@@ -273,3 +273,50 @@ body{
     font-size:14px !important;
   }
 }
+
+
+/* ============================================================
+   V3.5 Performance Maturity
+   未滿 5D / 20D / 45D 不再顯示 0.00%
+   ============================================================ */
+.performance-row{
+  align-items:center;
+}
+
+.perf-stock .small{
+  margin-top:3px;
+}
+
+.perf-eval{
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.35;
+}
+
+.perf-wait{
+  font-size:14px !important;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.perf-progress{
+  margin-top:3px;
+  font-size:11px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+@media(max-width:950px){
+  .perf-eval{
+    font-size:13px;
+  }
+
+  .perf-wait{
+    font-size:14px !important;
+  }
+
+  .perf-progress{
+    font-size:12px;
+  }
+}
